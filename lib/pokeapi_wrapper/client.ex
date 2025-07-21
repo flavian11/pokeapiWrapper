@@ -2,14 +2,24 @@ defmodule PokeapiWrapper.Client do
   @base_url "https://pokeapi.co/api/v2"
 
   def pokemon(name_or_id) do
-    res =
-      name_or_id
-      |> build_req("pokemon")
-      |> exec_req()
+    case PokeapiWrapper.Cache.get_pokemon(name_or_id) do
+      {:ok, pokemon_data} ->
+        {:ok, pokemon_basic_info(pokemon_data)}
 
-    case res do
-      {:ok, data} -> data |> pokemon_basic_info()
-      res -> res
+      {:error, :not_found} ->
+        res =
+          name_or_id
+          |> build_req("pokemon")
+          |> exec_req()
+
+        case res do
+          {:ok, data} ->
+            PokeapiWrapper.Cache.cache_poke(name_or_id, data)
+            data |> pokemon_basic_info()
+
+          res ->
+            res
+        end
     end
   end
 

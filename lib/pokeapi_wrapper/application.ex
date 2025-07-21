@@ -8,8 +8,7 @@ defmodule PokeapiWrapper.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Starts a worker by calling: PokeapiWrapper.Worker.start_link(arg)
-      # {PokeapiWrapper.Worker, arg}
+      {PokeapiWrapper.Cache, :pokemon_cache}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

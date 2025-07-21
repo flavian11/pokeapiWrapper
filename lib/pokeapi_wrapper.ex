@@ -35,8 +35,4 @@ defmodule PokeapiWrapper do
   def list_abilities(), do: PokeapiWrapper.Client.list_abilities()
   def list_abilities(limit), do: PokeapiWrapper.Client.list_abilities(limit)
   def list_abilities(limit, offset), do: PokeapiWrapper.Client.list_abilities(limit, offset)
-
-  def hello do
-    :world
-  end
 end
